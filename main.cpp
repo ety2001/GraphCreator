@@ -17,58 +17,83 @@ between the first vertex and the last vertex. Return the shortest path (and tota
 that no path exists.  (5 points)
 */
 
-#include<iostream>;
-#include<string.h>;
-#include "Node.h";
+#include<iostream>
+#include<string.h>
+#include "Graph.h"
 
 using namespace std;
 
-
-void addVertex(char* labels, int* count);
-
 int main(){
-  int table[20][20];
+  Graph graph;
   char input[50];
-  char labels[20];
-  int count = 0;
+  char path[20];
+  char label;
+  char label1;
+  char label2;
+  int length;
+  int weight;
   bool run = true;
 
   while(run){
-    cout<<"Add Vertex (AV), Add Edge (AE), Remove Vertex (RV), Remove Edge(RE), Find Path (F)"<<endl;
+    cout<<"Add Vertex (AV), Add Edge (AE), Remove Vertex (RV), Remove Edge(RE), Print Table (PT), Find Path (FP), or Quit (Q)"<<endl;
     cin>>input;
-    if(!strcmp(input, "AV"))
-      addVertex(labels, count);
+    if(!strcmp(input, "AV")){
+      cout<<"Enter the label: ";
+      cin>>label;
+      cin.ignore();
+      graph.addVertex(label);
     }
-    else if(!strcmp(input, "AE"))
-      addEdge();
+    else if(!strcmp(input, "AE")){
+      cout<<"Enter the first label: ";
+      cin>>label1;
+      cin.ignore();
+      cout<<"Enter the second label: ";
+      cin>>label2;
+      cin.ignore();
+      cout<<"Enter the weight: ";
+      cin>>weight;
+      cin.ignore();
+      graph.addEdge(label1, label2, weight);
     }
-    else if(!strcmp(input, "RV"))
-      removeVertex();
+    else if(!strcmp(input, "RV")){
+      cout<<"Enter the label: ";
+      cin>>label;
+      cin.ignore();
+      graph.removeVertex(label);
     }
-    else if(!strcmp(input, "RE"))
-      removeEdge();
+    else if(!strcmp(input, "RE")){
+      cout<<"Enter the first label: ";
+      cin>>label1;
+      cin.ignore();
+      cout<<"Enter the second label: ";
+      cin>>label2;
+      cin.ignore();
+      graph.removeEdge(label1, label2);
     }
-    else if(!strcmp(input, "FP"))
-      findPath();
+    else if(!strcmp(input, "PT")){
+      graph.printTable();
+    }
+    else if(!strcmp(input, "FP")){
+      cout<<"Enter the first label: ";
+      cin>>label1;
+      cin.ignore();
+      cout<<"Enter the second label: ";
+      cin>>label2;
+      cin.ignore();
+      length = graph.findPath(label1, label2, path);
+      if(length>=0){
+        cout<<path<<": "<<length<<endl;
+      }
+      else{
+        cout<<"No path exists."<<endl;
+      }
+    }
+    else if(!strcmp(input, "Q")){
+      run = false;
     }
     else{
       cout<<"Not a valid input."<<endl;
     }
   }
   return 0;
-}
-
-void addVertex(char* labels, int* count){
-  char label;
-  cout<<"Enter a 1 character label"<<end;
-  cin>>label;
-  for(int i = 0; i < count; i++){
-    if(labels[i]!=label){
-      cout<<"That label already exists";
-      addVertex(labels, count);
-      break;
-    }
-  }
-  labels[count-1] = label;
-  count++;
 }
